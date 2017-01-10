@@ -6,7 +6,7 @@ containerInfo:
 
 stages:
   build:
-    workDir: /home/ubuntu/$CIRCLE_PROJECT_REPONAME
+    workDir: /home/ubuntu/comicsdbclient
     environment:
       - ANDROID_HOME: /usr/local/android-sdk-linux
       - PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-3.2.1/bin:$PATH"
@@ -16,7 +16,7 @@ stages:
           - type: shell
             shell: /bin/bash
             command: |
-              echo $GOOGLE_SERVICES | base64 --decode > ~/$CIRCLE_PROJECT_REPONAME/app/google-services.json
+              echo $GOOGLE_SERVICES | base64 --decode > ~/comicsdbclient/app/google-services.json
               wget "https://services.gradle.org/distributions/gradle-3.2.1-all.zip"; unzip gradle-3.2.1-all.zip
               ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter tools,platform-tools,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support,extra-android-m2repository
               echo y | android update sdk --no-ui --all --filter build-tools-25.0.2
