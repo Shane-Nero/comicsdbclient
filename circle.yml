@@ -13,6 +13,7 @@ stages:
       - TERM: "dumb"
       - ADB_INSTALL_TIMEOUT: "10"
     steps:
+          - type: checkout
           - type: shell
             shell: /bin/bash
             command: |
