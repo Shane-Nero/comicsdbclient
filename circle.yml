@@ -1,25 +1,40 @@
-machine:
-  environment:
-    ANDROID_HOME: /usr/local/android-sdk-linux
-    PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-3.2.1/bin:$PATH"
-    TERM: "dumb"
-    ADB_INSTALL_TIMEOUT: "10"
+version: 2
+executorType: docker
+containerInfo:
+  - image: ubuntu:14.04
+    cmd: ["/bin/bash"]
 
-dependencies:
-    pre:
-        - echo $GOOGLE_SERVICES | base64 --decode > ~/$CIRCLE_PROJECT_REPONAME/app/google-services.json
-        - wget "https://services.gradle.org/distributions/gradle-3.2.1-all.zip"; unzip gradle-3.2.1-all.zip
-        - ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter tools,platform-tools,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support,extra-android-m2repository
-        - echo y | android update sdk --no-ui --all --filter build-tools-25.0.2
-test:
-  override:
-    - emulator -avd circleci-android22 -no-audio -no-window:
-          background: true
-          parallel: true
-    - circle-android wait-for-boot
-    - sleep 30
-    - adb shell input keyevent 82
-    - if [ -e ./gradlew ]; then ./gradlew test assembleDebug connectedAndroidTest -PdisablePreDex;else gradle test assembleDebug connectedAndroidTest -PdisablePreDex;fi
-    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
-    - cp -r app/build/test-results/* $CIRCLE_TEST_REPORTS
-    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+stages:
+  build:
+    workDir: /home/ubuntu/$CIRCLE_PROJECT_REPONAME
+    environment:
+      - ANDROID_HOME: /usr/local/android-sdk-linux
+      - PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-3.2.1/bin:$PATH"
+      - TERM: "dumb"
+      - ADB_INSTALL_TIMEOUT: "10"
+    steps:
+          - type: shell
+            shell: /bin/bash
+            command: |
+              echo $GOOGLE_SERVICES | base64 --decode > ~/$CIRCLE_PROJECT_REPONAME/app/google-services.json
+              wget "https://services.gradle.org/distributions/gradle-3.2.1-all.zip"; unzip gradle-3.2.1-all.zip
+              ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter tools,platform-tools,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support,extra-android-m2repository
+              echo y | android update sdk --no-ui --all --filter build-tools-25.0.2
+              echo y | android update sdk --no-ui --all --filter sys-img-x86_64-google_apis-25
+
+          - type: shell
+            shell: /bin/bash
+            command: |
+              android create avd -n android-25 -t android-25
+              emulator -avd android-25
+              while [ "`adb shell getprop init.svc.bootanim | tr -d '\r' `" != "1" ] ; do sleep 1; done
+              sleep 30
+              adb shell input keyevent 82
+              if [ -e ./gradlew ]; then ./gradlew test assembleDebug connectedAndroidTest -PdisablePreDex;else gradle test assembleDebug connectedAndroidTest -PdisablePreDex;fi
+          - type: artifacts-store
+            path: app/build/outputs
+            destination: build
+          - type: test-results-store
+            path: app/build/test-results/
+          - type: test-results-store
+            path: app/build/outputs/androidTest-results/*
