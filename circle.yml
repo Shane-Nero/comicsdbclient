@@ -6,13 +6,8 @@ containerInfo:
 
 stages:
   build:
-    #workDir: /root/comicsdbclient
+    workDir: /root/comicsdbclient
     steps:
-          - type: shell
-            command: |
-              pwd
-              whoami
-              ls /home
           - type: checkout
           - type: shell
             shell: /bin/bash
