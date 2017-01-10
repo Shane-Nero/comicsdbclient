@@ -28,9 +28,10 @@ stages:
             command: SHELL=/bin/bash tools/emulator -avd android-25
           - type: shell
             name: Wait for emulator to start
-            while [ "`platform-tools/adb shell getprop init.svc.bootanim | tr -d '\r' `" != "1" ] ; do sleep 1; done
-            sleep 30
-            platform-tools/adb shell input keyevent 82
+            command: |
+              while [ "`platform-tools/adb shell getprop init.svc.bootanim | tr -d '\r' `" != "1" ] ; do sleep 1; done
+              sleep 30
+              platform-tools/adb shell input keyevent 82
           - type: shell
             name: Build and test application
             command: if [ -e ./gradlew ]; then ./gradlew test assembleDebug connectedAndroidTest -PdisablePreDex;else gradle test assembleDebug connectedAndroidTest -PdisablePreDex;fi
