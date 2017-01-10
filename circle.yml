@@ -10,6 +10,7 @@ stages:
     steps:
           - type: shell
             command: |
+              pwd
               mkdir /home/ubuntu/comicsdbclient
               apt-get install git
           - type: checkout
