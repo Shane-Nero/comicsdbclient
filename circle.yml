@@ -9,7 +9,7 @@ stages:
     workDir: /root/comicsdbclient
     steps:
           - type: shell
-            command: mkdir /root/comicsdbclient
+            command: whoami
           - type: shell
             name: Install apt packages
             command: apt-get update && apt-get install git libqt5
