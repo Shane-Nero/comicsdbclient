@@ -1,14 +1,15 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: beevelop/android:latest
+  - image: ubuntu:precise
     cmd: ["/bin/bash"]
 
 stages:
   build:
+    workDir: /home/ubuntu/comicsdbclient
     steps:
           - type: shell
-            command: pwd; ls; whoami
+            command: cd pwd; ls; whoami
           - type: shell
             command: |
               pwd
