@@ -22,15 +22,15 @@ stages:
             command: |
               echo $GOOGLE_SERVICES | base64 --decode > ~/comicsdbclient/app/google-services.json
               wget "https://services.gradle.org/distributions/gradle-3.2.1-all.zip"; unzip gradle-3.2.1-all.zip
-              ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | tools/android update sdk --no-ui --all --filter tools,platform-tools,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support,extra-android-m2repository
+              ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | tools/android update sdk --no-ui --all --filter tools,platform-tools,android-24,extra-google-m2repository,extra-google-google_play_services,extra-android-support,extra-android-m2repository
               echo y | tools/android update sdk --no-ui --all --filter build-tools-25.0.2
-              echo y | tools/android update sdk --no-ui --all --filter sys-img-x86-google_apis-25
+              echo y | tools/android update sdk --no-ui --all --filter sys-img-armeabi-v7a-google_apis-24
           - type: shell
             name: Create emulator
-            command:  echo no | tools/android create avd -f -n android-25 -t android-25 --abi google_apis/x86
+            command:  echo no | tools/android create avd -f -n android-24 -t android-24 --abi google_apis/armeabi-v7a
           - type: shell
             name: Start emulator
-            command: SHELL=/bin/bash tools/emulator -avd android-25
+            command: SHELL=/bin/bash tools/emulator -avd android-24
           - type: shell
             name: Wait for emulator to start
             command: |
