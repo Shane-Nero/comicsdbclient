@@ -10,9 +10,9 @@ stages:
     steps:
           - type: shell
             command: |
-              mkdir /root/comicsdbclient
-              apt-get update
-              apt-get install git
+              pws
+              whoami
+              ls /home
           - type: checkout
           - type: shell
             shell: /bin/bash
