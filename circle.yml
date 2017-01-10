@@ -8,10 +8,10 @@ stages:
   build:
     workDir: /root/comicsdbclient
     steps:
-          - type: checkout
           - type: shell
-            name: Install apt packages
-            command: apt-get update && apt-get install libqt5
+                name: Install apt packages
+                command: apt-get update && apt-get install git libqt5
+          - type: checkout
           - type: shell
             name: Download Android SDK tools
             command: wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip; unzip tools_r25.2.3-linux.zip
