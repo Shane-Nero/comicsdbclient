@@ -24,13 +24,13 @@ stages:
               wget "https://services.gradle.org/distributions/gradle-3.2.1-all.zip"; unzip gradle-3.2.1-all.zip
               ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | tools/android update sdk --no-ui --all --filter tools,platform-tools,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support,extra-android-m2repository
               echo y | tools/android update sdk --no-ui --all --filter build-tools-25.0.2
-              echo y | tools/android update sdk --no-ui --all --filter sys-img-x86_64-google_apis-25
+              echo y | tools/android update sdk --no-ui --all --filter sys-img-x86-google_apis-25
           - type: shell
             name: Create emulator
-            command:  echo no | tools/android create avd -f -n android-25 -t android-25 --abi google_apis/x86_64
+            command:  echo no | tools/android create avd -f -n android-25 -t android-25 --abi google_apis/x86
           - type: shell
             name: Start emulator
-            command: SHELL=/bin/bash tools/emulator64-x86 -avd android-25
+            command: SHELL=/bin/bash tools/emulator -avd android-25
           - type: shell
             name: Wait for emulator to start
             command: |
