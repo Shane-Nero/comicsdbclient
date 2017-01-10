@@ -30,7 +30,7 @@ stages:
             command:  echo no | tools/android create avd -f -n android-24 -t android-24 --abi google_apis/armeabi-v7a
           - type: shell
             name: Start emulator
-            command: SHELL=/bin/bash tools/emulator -no-audio -no-windoew -avd android-24
+            command: SHELL=/bin/bash tools/emulator -no-audio -no-window -avd android-24
           - type: shell
             name: Wait for emulator to start
             command: |
