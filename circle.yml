@@ -10,6 +10,9 @@ stages:
     steps:
           - type: checkout
           - type: shell
+            name: Install apt packages
+            command: apt-get install libqt5
+          - type: shell
             name: Download Android SDK tools
             command: wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip; unzip tools_r25.2.3-linux.zip
           - type: shell
