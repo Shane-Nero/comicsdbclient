@@ -25,11 +25,12 @@ stages:
             command:  echo no | tools/android create avd -f -n android-25 -t android-25 --abi google_apis/x86_64
           - type: shell
             name: Start emulator
-            command: |
-              SHELL=/bin/bash tools/emulator -avd android-25
-              while [ "`platform-tools/adb shell getprop init.svc.bootanim | tr -d '\r' `" != "1" ] ; do sleep 1; done
-              sleep 30
-              platform-tools/adb shell input keyevent 82
+            command: SHELL=/bin/bash tools/emulator -avd android-25
+          - type: shell
+            name: Wait for emulator to start
+            while [ "`platform-tools/adb shell getprop init.svc.bootanim | tr -d '\r' `" != "1" ] ; do sleep 1; done
+            sleep 30
+            platform-tools/adb shell input keyevent 82
           - type: shell
             name: Build and test application
             command: if [ -e ./gradlew ]; then ./gradlew test assembleDebug connectedAndroidTest -PdisablePreDex;else gradle test assembleDebug connectedAndroidTest -PdisablePreDex;fi
