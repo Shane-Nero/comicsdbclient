@@ -6,16 +6,12 @@ containerInfo:
 
 stages:
   build:
-    #workDir: /home/ubuntu/comicsdbclient
+    workDir: /root/comicsdbclient
     steps:
           - type: shell
             command: |
-              cd ~
-              pwd
-          - type: shell
-            command: |
-              pwd
-              mkdir /home/ubuntu/comicsdbclient
+              mkdir /root/comicsdbclient
+              apt-get update
               apt-get install git
           - type: checkout
           - type: shell
