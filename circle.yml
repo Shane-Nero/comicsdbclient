@@ -25,7 +25,7 @@ stages:
             command:  echo no | tools/android create avd -f -n android-25 -t android-25 --abi google_apis/x86_64
           - type: shell
             name: Start emulator
-            command: SHELL=/bin/bash tools/emulator -avd android-25
+            command: SHELL=/bin/bash tools/emulator64-x86 -avd android-25
           - type: shell
             name: Wait for emulator to start
             command: |
