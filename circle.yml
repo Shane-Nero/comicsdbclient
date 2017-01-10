@@ -11,7 +11,7 @@ stages:
             command: mkdir /root/comicsdbclient
           - type: shell
             name: Install apt packages
-            command: apt-get update && apt-get -y install git libqt5widgets5 wget unzip
+            command: apt-get update && apt-get -y install git libqt5widgets5 wget unzip default-jdk
           - type: checkout
             path: /root/comicsdbclient
           - type: shell
