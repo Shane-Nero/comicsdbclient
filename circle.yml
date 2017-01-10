@@ -8,6 +8,10 @@ stages:
   build:
     workDir: /home/ubuntu/comicsdbclient
     steps:
+          - type: shell
+            command: |
+              mkdir /home/ubuntu/comicsdbclient
+              apt-get install git
           - type: checkout
           - type: shell
             shell: /bin/bash
