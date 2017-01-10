@@ -10,25 +10,29 @@ stages:
     steps:
           - type: checkout
           - type: shell
+            name: Download Android SDK tools
             command: wget https://dl.google.com/android/repository/tools_r25.2.3-linux.zip; unzip tools_r25.2.3-linux.zip
           - type: shell
-            shell: /bin/bash
+            name: Download Gradle and Android stuff
             command: |
               echo $GOOGLE_SERVICES | base64 --decode > ~/comicsdbclient/app/google-services.json
               wget "https://services.gradle.org/distributions/gradle-3.2.1-all.zip"; unzip gradle-3.2.1-all.zip
               ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | tools/android update sdk --no-ui --all --filter tools,platform-tools,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support,extra-android-m2repository
               echo y | tools/android update sdk --no-ui --all --filter build-tools-25.0.2
               echo y | tools/android update sdk --no-ui --all --filter sys-img-x86_64-google_apis-25
-
           - type: shell
-            shell: /bin/bash
+            name: Create emulator
+            command:  echo no | tools/android create avd -f -n android-25 -t android-25 --abi google_apis/x86_64
+          - type: shell
+            name: Start emulator
             command: |
-              tools/android create avd -n android-25 -t android-25
-              tools/emulator -avd android-25
+              SHELL=/bin/bash tools/emulator -avd android-25
               while [ "`platform-tools/adb shell getprop init.svc.bootanim | tr -d '\r' `" != "1" ] ; do sleep 1; done
               sleep 30
               platform-tools/adb shell input keyevent 82
-              if [ -e ./gradlew ]; then ./gradlew test assembleDebug connectedAndroidTest -PdisablePreDex;else gradle test assembleDebug connectedAndroidTest -PdisablePreDex;fi
+          - type: shell
+            name: Build and test application
+            command: if [ -e ./gradlew ]; then ./gradlew test assembleDebug connectedAndroidTest -PdisablePreDex;else gradle test assembleDebug connectedAndroidTest -PdisablePreDex;fi
           - type: artifacts-store
             path: app/build/outputs
             destination: build
