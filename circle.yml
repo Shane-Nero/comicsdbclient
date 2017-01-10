@@ -1,7 +1,7 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: java:8-jdk
+  - image: ubuntu:xenial
     cmd: ["/bin/bash"]
 
 stages:
