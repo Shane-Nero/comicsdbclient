@@ -6,7 +6,6 @@ containerInfo:
 
 stages:
   build:
-    workDir: /root/comicsdbclient
     steps:
           - type: shell
             command: whoami
