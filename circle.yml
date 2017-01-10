@@ -9,7 +9,9 @@ stages:
     #workDir: /home/ubuntu/comicsdbclient
     steps:
           - type: shell
-            command: cd ~
+            command: |
+              cd ~
+              pwd
           - type: shell
             command: |
               pwd
