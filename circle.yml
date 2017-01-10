@@ -9,6 +9,8 @@ stages:
     workDir: /home/ubuntu/comicsdbclient
     steps:
           - type: shell
+                command: pwd; ls; whoami
+          - type: shell
             command: |
               pwd
               mkdir /home/ubuntu/comicsdbclient
