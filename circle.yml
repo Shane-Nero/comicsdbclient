@@ -6,10 +6,10 @@ containerInfo:
 
 stages:
   build:
-    workDir: /home/ubuntu/comicsdbclient
+    #workDir: /home/ubuntu/comicsdbclient
     steps:
           - type: shell
-            command: cd pwd; ls; whoami
+            command: cd ~
           - type: shell
             command: |
               pwd
