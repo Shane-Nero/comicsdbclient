@@ -1,15 +1,13 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: ubuntu:14.04
+  - image: beevelop/android:latest
     cmd: ["/bin/bash"]
 
 stages:
   build:
     workDir: /home/ubuntu/comicsdbclient
     steps:
-          - type: shell
-            command: apt-get install git
           - type: checkout
           - type: shell
             shell: /bin/bash
