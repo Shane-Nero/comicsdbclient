@@ -27,7 +27,7 @@ stages:
         #      echo y | tools/android update sdk --no-ui --all --filter sys-img-armeabi-v7a-google_apis-24
           - type: shell
             name: Create emulator
-            command:  echo no | tools/android create avd -f -n android-24 -t android-24 --abi google_apis/armeabi-v7a
+            command:  echo no | android create avd -f -n android-24 -t android-24 --abi google_apis/armeabi-v7a
           - type: shell
             name: Start emulator
             command: SHELL=/bin/bash tools/emulator -no-audio -no-window -avd android-24
